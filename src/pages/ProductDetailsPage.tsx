@@ -11,7 +11,7 @@ const ProductDetailsPage: React.FC = () => {
     (state: RootState) => state.products
   );
 
-  const product = products.find((p) => p.id === Number(id));
+  const product = products.find((p) => p.id === id);
 
   useEffect(() => {
     if (status === "idle") {

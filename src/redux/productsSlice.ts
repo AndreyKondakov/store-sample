@@ -14,7 +14,7 @@ const initialState: ProductsState = {
   error: null,
 };
 
-const API_URL = "http://localhost:3001/products";
+const API_URL = "http://localhost:5001/products";
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
