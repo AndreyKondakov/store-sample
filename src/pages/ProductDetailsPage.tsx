@@ -11,7 +11,7 @@ const ProductDetailsPage: React.FC = () => {
     (state: RootState) => state.products
   );
 
-  const product = products.find((p) => p.id === Number(id));
+  const product = products.find((p) => p.id === id);
 
   useEffect(() => {
     if (status === "idle") {
@@ -47,7 +47,7 @@ const ProductDetailsPage: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 bg-gray-100 min-h-screen">
+    <div className="bg-gray-100 mx-auto p-4 min-h-screen">
       <div className="bg-white rounded-lg shadow-lg p-6 max-w-2xl mx-auto mt-10">
         <div className="flex flex-col md:flex-row gap-6">
           <img
