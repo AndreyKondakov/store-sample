@@ -3,6 +3,9 @@ import { useParams, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProducts } from "../redux/productsSlice";
 import type { RootState, AppDispatch } from "../redux/store";
+import CommentList from "../components/CommentList";
+import { fetchCommentsByProductId } from "../redux/commentsSlice";
+import AddCommentForm from "../components/AddCommentForm";
 
 const ProductDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -12,12 +15,20 @@ const ProductDetailsPage: React.FC = () => {
   );
 
   const product = products.find((p) => p.id === id);
+  const productId = product?.id;
+  const commentsState = useSelector((state: RootState) => state.comments);
 
   useEffect(() => {
     if (status === "idle") {
       dispatch(fetchProducts());
     }
   }, [status, dispatch]);
+
+  useEffect(() => {
+    if (productId) {
+      dispatch(fetchCommentsByProductId(productId));
+    }
+  }, [productId, dispatch]);
 
   if (status === "loading") {
     return <div className="p-4 text-center">Завантаження...</div>;
@@ -45,6 +56,10 @@ const ProductDetailsPage: React.FC = () => {
       </div>
     );
   }
+
+  const productComments = commentsState.comments.filter(
+    (comment) => comment.productId === productId
+  );
 
   return (
     <div className="bg-gray-100 mx-auto p-4 min-h-screen">
@@ -74,6 +89,12 @@ const ProductDetailsPage: React.FC = () => {
             </Link>
           </div>
         </div>
+      </div>
+
+      <div className="max-w-2xl mx-auto mt-10">
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">Коментарі</h2>
+        <CommentList comments={productComments} />
+        <AddCommentForm productId={productId} />
       </div>
     </div>
   );
